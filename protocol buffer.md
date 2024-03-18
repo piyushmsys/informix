@@ -3,9 +3,9 @@
 ### Overview
     Protocol Buffers are a language-neutral, platform-neutral extensible mechanism for serializing structured data.
 
-> It is like we define data format to be transmitted and then code for respective language can be generated. It support a huge list of programming langagues like
+> It is like we define the data format to be transmitted and then code for the respective language can be generated. It supports a huge list of programming languages like C++, Java, Rails, C# etc
     
-### How does protobuffer look like
+### How does proto buffer look like
 ```proto
 message Person {
   optional string name = 1;
@@ -13,18 +13,18 @@ message Person {
   optional string email = 3;
 }
 ```
-    In the above proto buffer definition, we are trying to convey protoco buffer that we will be transmitting a person object which may have name,id and email as fields and proto compiler will use this definition to generate language specific code.
+    In the above proto buffer definition, we are trying to convey the protocol buffer that we will be transmitting a person object which may have name,id and email as fields and proto compiler will use this definition to generate language specific code.
 
 ### What Problems do Protocol Buffers Solve?
-* **Efficiency:** Due to compact size it does not take much network bandwidth and data transmission become quick and easy which gradually enhance the efficiency.
+* **Efficiency:** Due to its compact size it does not take much network bandwidth and data transmission becomes quick and easy which gradually enhances the efficiency.
 * **Interoperability:** Protobuf supports multiple programming languages, allowing data to be serialized and deserialized in one language and then transmitted and processed in another. This interoperability simplifies communication between systems written in different languages
-* **Schema Evolution / Easy to enhance:** Protobuf messages are defined using a schema, which specifies the structure and data types of the serialized data. This schema can evolve over time without breaking compatibility with existing clients or servers.
+* **Schema Evolution / Easy to enhance:** Protobuf messages are defined using a schema, which specifies the structure and data types of the serialized data. This schema can evolve without breaking compatibility with existing clients or servers.
 * **Versioning or Backward and Forward Compatibility:** This means that clients and servers using different versions of the schema can still communicate with each other without requiring immediate updates. As long as both parties adhere to certain compatibility rules, they can exchange messages safely.
-* **Code Generation: :** Protobuf compilers generate code for serializing and deserializing messages in different programming languages based on the schema definition. This generated code handles the low-level encoding and decoding details, allowing developers to focus on application logic rather than serialization concerns.
+* **Code Generation:** Protobuf compilers generate code for serializing and deserializing messages in different programming languages based on the schema definition. This generated code handles the low-level encoding and decoding details, allowing developers to focus on application logic rather than serialization concerns.
 
 ## In what situations are Protocol Buffers not suitable?
-* **Can not comapre untill fully parsed:** When protocol buffers are serialized, the same data can have many different binary serializations. You cannot compare two messages for equality without fully parsing them.
-* **Can not handle very large message:** Protocol buffers tend to assume that entire messages can be loaded into memory at once and are not larger than an object graph. For data that exceeds a few megabytes, consider a different solution; when working with larger data, you may effectively end up with several copies of the data due to serialized copies, which can cause surprising spikes in memory usage.
+* **Can not compare untill fully parsed:** When protocol buffers are serialized, the same data can have many different binary serializations. You cannot compare two messages for equality without fully parsing them.
+* **Can not handle very large messages:** Protocol buffers tend to assume that entire messages can be loaded into memory at once and are not larger than an object graph. For data that exceeds a few megabytes, consider a different solution; when working with larger data, you may effectively end up with several copies of the data due to serialized copies, which can cause surprising spikes in memory usage.
 * **Less readable:** Protocol buffer messages don’t inherently self-describe their data, but they have a fully reflective schema that you can use to implement self-description. That is, you cannot fully interpret one without access to its corresponding ```.proto``` file 
 
 ## How do Protocol Buffers Work? 
@@ -54,13 +54,13 @@ Person john = Person.newBuilder()
 
 ```
 
-### Code like below can be used to serialize above message
+### Code like below can be used to serialize the above message
 ```java
 output = new FileOutputStream(args[0]);
 john.writeTo(output);
 ```
 
-### Same message can be deserialized like below in other language like C++
+### The same message can be deserialized like below in other languages like C++
 ```c++
 Person john;
 fstream input(argv[1], ios::in | ios::binary);
@@ -71,7 +71,7 @@ std::string email = john.email();
 ```
 
 ## Protocol Buffers Definition Syntax 
-> proto2 and proto3 has bit different syntax definitions. Please refer below links to check it in details.
+> proto2 and proto3 has bit different syntax definitions. Please refer below links to check it in detail.
 * [Proto2](https://protobuf.dev/programming-guides/proto2/)
 * [Proto3](https://protobuf.dev/programming-guides/proto3/)
 
@@ -135,3 +135,35 @@ message SearchRequest {
     
 
 ### Compile and generate code using proto file
+* Download the protobuffer compiler from [here](https://github.com/protocolbuffers/protobuf/releases/tag/v26.0)
+* Extract and look for protoc.exe(for unix and mac file extension would be different)
+* Create a sample proto like below and name it as ```developer.proto```
+```proto
+syntax = "proto3";
+
+package com.msys;
+
+option java_package = "com.msys.protobuf";
+
+message Developer {
+  optional string name = 1;
+  optional int32 id = 2;
+  optional string email = 3;
+}
+```
+> I have created it with minimal configuration to test it. The same can be created with lot more configuration based on the requirement.
+* Use the below command to compile and generate class file \
+```protoc -I=$SRC_DIR --java_out=$DST_DIR $SRC_DIR/developer.proto```
+> Replace ```$SRC_DIR``` with respective source directory and ```$DST_DIR``` with respective destination diretory.
+
+
+Note: Explanation about proto syntax and more details will be added as part of [gRPC](gRpc.md) documentation
+
+
+## References
+* [https://protobuf.dev/](https://protobuf.dev/)
+* [Proto 2 Tutorial](https://protobuf.dev/programming-guides/proto2/)
+* [Proto 3 Tutorial](https://protobuf.dev/programming-guides/proto3/)
+* [Proto Best Practise](https://protobuf.dev/programming-guides/dos-donts/)
+* [Proto buffer Java tutorial](https://protobuf.dev/getting-started/javatutorial/)
+* [Proto buffer Java Ref guide](https://protobuf.dev/reference/java/)
