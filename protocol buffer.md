@@ -1037,7 +1037,7 @@ public final class DeveloperOuterClass {
 ```
 
 
-Note: Explanation about proto syntax and more details will be added as part of [gRPC](gRpc.md) documentation
+Note: Details regarding proto syntax, generated classes, and more information will be incorporated into the [gRPC documentation]((gRpc.md)).
 
 
 ## References
